@@ -3,9 +3,40 @@
 
 body {
     background-color: #222;
+
     font-family: 'Open Sans', sans-serif;
+
+    margin:0;
+    padding:0;
+}
+
+p {
+    color:white;
 }
 
 .main {
-    
+    margin:0 auto;
+    text-align: center;
+}
+
+.svg_title_group {
+    fill:none;
+    stroke: #FFF;
+    stroke-width: 0.25mm;
+}
+#svg_title {
+    margin-top: 10rem;
+}
+
+.loading_container {
+    margin:0 auto;
+    margin-top:5rem;
+}
+
+.loading_container .dot {
+    height: 18px;
+    width: 18px;
+    background-color: #FFF;
+    border-radius: 50%;
+    display: inline-block;
 }
