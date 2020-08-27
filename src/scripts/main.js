@@ -21,5 +21,5 @@ var hasLoadedProfiles = false;
 })()
 
 function loadProfiles() {
-
+    fs.readDir(path.join(__dirname, "res")).then()
 }
