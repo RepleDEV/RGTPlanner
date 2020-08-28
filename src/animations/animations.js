@@ -19,6 +19,7 @@ splash_screen.play_show_animation = function() {
 
         await this.current_animation.finished;
 
+        this.current_animation = undefined;
         resolve("Success");
     });
 };
@@ -37,14 +38,17 @@ splash_screen.play_hide_animation = function() {
 
         await this.current_animation.finished;
 
+        this.current_animation = undefined;
         resolve("Success");
     });
 };
 
 splash_screen.skip_animation = function() {
-    if (this.current_animation === undefined)return 0;
+    if (this.current_animation === undefined)return "No animations are currently playing!";
     var anim = this.current_animation;
     anim.seek(anim.duration);
+
+    this.current_animation = undefined;
     return "Skipped animation";
 }
 

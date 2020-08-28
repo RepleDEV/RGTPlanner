@@ -13,6 +13,7 @@ const createWindow = () => {
       nodeIntegration: true,
       enableRemoteModule: true
     },
+    title: "RGTPlanner",
     minWidth: 800,
     minHeight: 600
   });

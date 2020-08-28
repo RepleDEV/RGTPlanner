@@ -1,4 +1,4 @@
-var hasLoadedProfiles = false;
+var hasLoaded = false;
 
 var profiles;
 
@@ -11,26 +11,43 @@ var profiles;
 
     $(".loading_container").css("opacity", 0);
 
-    anime({
+    await anime({
         targets: ".loading_container",
         opacity: 1,
         easing: "easeInOutSine",
         duration: 800,
-    });
+    }).finished;
 
-    loadProfiles().then(res => {
+    await loadProfiles().then(res => {
         profiles = res;
-        hasLoadedProfiles = true;
     }).catch(console.error);
 
-    while (!hasLoadedProfiles) {
+    loadMenus().then(res => {
+        hasLoaded = true;
+    }).catch(console.error);
+
+    while (!hasLoaded) {
         await dots_loading.play_loading_animation();
     }
 
     dots_loading.play_hide_animation();
     await splash_screen.play_hide_animation();
 
-    await planner_create.load();
+    dots_loading.hide();
+    splash_screen.hide();
+
+    Menu.load("menu_main");
+
+    // if (typeof profiles == "object" && profiles.length > 0) {
+    //     // Pass
+    // } else {
+    //     Page.add("<p><i>You have no planners! Create a planner or import one!</i></p>");
+    // }
+
+    // $(".planner_navigate_container").click(function (e) { 
+    //     e.preventDefault();
+    //     Menu.load.create_planner_page();
+    // });
 })()
 
 function loadProfiles() {
@@ -38,6 +55,22 @@ function loadProfiles() {
         var resContents;
         await fs.readdir(path.join(__dirname, "res")).then(res => resContents = res).catch(reject);
 
-        if (resContents.length <= 0)return resolve(undefined);
+        if (resContents.length <= 0)return resolve([]);
+        resolve("Success");
+    });
+}
+
+function loadMenus() {
+    return new Promise(async (resolve, reject) => {
+        // Load main menu
+        Page.add("<div class=\"menu menu_main\"></div>");
+        await planner_create_element.getHTML().then(res => {
+            $(".menu_main").html($(".menu_main").html() + res);
+        }).catch(reject);
+        if (profiles.length == 0) {
+            $(".menu_main").html($(".menu_main").html() + "<p><i>You have no planners! Create a planner or import one!</i></p>");
+        }
+
+        resolve("Success");
     });
 }
