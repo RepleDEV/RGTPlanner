@@ -2,6 +2,7 @@
 
 const fs = require("fs").promises;
 const path = require('path');
+window.$ = window.jQuery = require('jquery');
 
 const Page = {
     clear: function() {
@@ -36,10 +37,11 @@ function getPageHTML(page) {
 }
 
 const splash_screen = {
-    load: async function() {
+    load: async function(method) {
         return new Promise(async (resolve, reject) => {
             await getPageHTML("splash_screen").then(res => {
-                Page.replace(res);
+                if (typeof method == "undefined" || method.length == 1)Page.replace(res);
+                else Page[method](res);
                 resolve("Success");
             }).catch(reject);
         });
@@ -47,10 +49,35 @@ const splash_screen = {
 };
 
 const dots_loading = {
-    load: function() {
+    load: function(method) {
         return new Promise(async (resolve, reject) => {
             await getPageHTML("dots_loading").then(res => {
-                Page.add(res);
+                if (typeof method == "undefined" || method.length == 1)Page.replace(res);
+                else Page[method](res);
+                resolve("Success");
+            }).catch(reject);
+        });
+    }
+}
+
+const planner_create = {
+    load: function (method) {
+        return new Promise(async (resolve, reject) => {
+            await getPageHTML("planner_create").then(res => {
+                if (typeof method == "undefined" || method.length == 1)Page.replace(res);
+                else Page[method](res);
+                resolve("Success");
+            }).catch(reject);
+        });
+    }
+}
+
+const planner_select = {
+    load: function (method) {
+        return new Promise(async (resolve, reject) => {
+            await getPageHTML("planner_select").then(res => {
+                if (typeof method == "undefined" || method.length == 1)Page.replace(res);
+                else Page[method](res);
                 resolve("Success");
             }).catch(reject);
         });
