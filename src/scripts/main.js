@@ -38,15 +38,9 @@ var profiles;
 
     Menu.load("menu_main");
 
-    // if (typeof profiles == "object" && profiles.length > 0) {
-    //     // Pass
-    // } else {
-    //     Page.add("<p><i>You have no planners! Create a planner or import one!</i></p>");
-    // }
-
     // $(".planner_navigate_container").click(function (e) { 
     //     e.preventDefault();
-    //     Menu.load.create_planner_page();
+    //     Menu.load()
     // });
 })()
 
@@ -55,8 +49,8 @@ function loadProfiles() {
         var resContents;
         await fs.readdir(path.join(__dirname, "res")).then(res => resContents = res).catch(reject);
 
-        if (resContents.length <= 0)return resolve([]);
-        resolve("Success");
+        // If resContents has the length of 0 or lower, return [] else return resContents;
+        return resolve(resContents.length <= 0 ? resolve([]) : resolve(resContents));
     });
 }
 
@@ -67,8 +61,10 @@ function loadMenus() {
         await planner_create_element.getHTML().then(res => {
             $(".menu_main").html($(".menu_main").html() + res);
         }).catch(reject);
-        if (profiles.length == 0) {
+        if (profiles.length <= 0) {
             $(".menu_main").html($(".menu_main").html() + "<p><i>You have no planners! Create a planner or import one!</i></p>");
+        } else {
+            // Pass
         }
 
         resolve("Success");
