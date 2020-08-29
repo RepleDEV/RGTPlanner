@@ -78,8 +78,7 @@ dots_loading.play_loading_animation = function() {
             ],
             easing: 'easeOutSine',
             duration: 400,
-            delay: (el, i) => i * 50,
-            endDelay: 1000
+            delay: (el, i) => i * 50 + 600
         });
 
         await this.current_animation.finished;

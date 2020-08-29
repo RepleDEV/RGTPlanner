@@ -65,15 +65,17 @@ function loadProfiles() {
 function loadMenus() {
     return new Promise(async (resolve, reject) => {
         // Load main menu
-        Page.add("<div class=\"menu menu_main\"></div>");
+        Menu.new("menu_main");
         await planner_create_element.getHTML().then(res => {
-            $(".menu_main").html($(".menu_main").html() + res);
+            Menu.addTo("menu_main", res);
         }).catch(reject);
         if (profiles.length <= 0) {
-            $(".menu_main").html($(".menu_main").html() + "<p><i>You have no planners! Create a planner or import one!</i></p>");
+            Menu.addTo("menu_main","<p><i>You have no planners! Create a planner or import one!</i></p>")
         } else {
             // Pass
         }
+
+        Menu.new("menu_create");
 
         resolve("Success");
     });

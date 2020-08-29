@@ -35,6 +35,14 @@ const Menu = {
             }).finished;
             resolve("Success");
         });
+    },
+    new: function(menu_name) {
+        Page.add(`<div class="menu ${menu_name}"></div>`);
+        return 1;
+    },
+    addTo: function(menu_name, content) {
+        if ($(`.${menu_name}`).length <= 0)return Error("MENU DOESN'T EXIST");
+        $(`.${menu_name}`).html($(`.${menu_name}`).html() + content);
     }
 }
 
