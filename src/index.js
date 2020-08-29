@@ -10,11 +10,19 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
+    title: "RGTPlanner",
     minWidth: 800,
     minHeight: 600
   });
+
+  // Fixes Node fs issues as seen here https://github.com/electron/electron/issues/22119
+  app.allowRendererProcessReuse = false;
+
+  // Disable menu bar
+  mainWindow.menuBarVisible = false;
 
   // Maximize window
   mainWindow.maximize();

@@ -1,11 +1,103 @@
 /* Open Sans Font */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+/* Rubik Font */
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
 body {
     background-color: #222;
+
     font-family: 'Open Sans', sans-serif;
+
+    margin:0;
+    padding:0;
+
+    -webkit-user-select: none;
+}
+
+p {
+    color:white;
 }
 
 .main {
-    
+    margin:0 auto;
+    text-align: center;
+}
+
+.svg_title_group {
+    fill:none;
+    stroke: #FFF;
+    stroke-width: 0.25mm;
+}
+#svg_title {
+    margin-top: 10rem;
+}
+
+.loading_container {
+    margin:0 auto;
+    margin-top:5rem;
+}
+
+.loading_container .dot {
+    height: 18px;
+    width: 18px;
+    background-color: #FFF;
+    border-radius: 50%;
+    display: inline-block;
+}
+.planner_create {
+    font-family: 'Rubik', sans-serif;
+
+    margin: 0;
+    margin-left: 1rem;
+
+    text-align: left;
+
+    position: relative;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+.planner_navigate_container {
+    width: 28rem;
+    height: 4rem;
+
+    background-color: #EEE;
+
+    margin:4rem auto;
+
+    box-shadow: -6px 6px 8px 4px rgba(0, 0, 0, 0.5);
+
+    border-radius: 0.8rem;
+
+    opacity: 1;
+
+    transition: transform 80ms ease-in;
+}
+
+.planner_navigate_container:hover {
+    cursor: pointer;
+
+    transform: translateY(-0.15rem);
+}
+
+.planner_navigate_container:active {
+    transform: translateY(0.05rem);
+}
+
+.planner_create a {
+    color: black;
+
+    text-decoration: none;
+}
+
+.planner_create a:hover {
+    cursor: inherit;
+}
+
+.menu {
+    display: none;
+    opacity:0;
 }
