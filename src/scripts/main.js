@@ -46,8 +46,16 @@ var profiles;
 
 function loadProfiles() {
     return new Promise(async (resolve, reject) => {
-        var resContents;
-        await fs.readdir(path.join(__dirname, "res")).then(res => resContents = res).catch(reject);
+        // First, check is the src/res folder exists
+        if (!require("fs").existsSync(path.join(__dirname, "../res/"))) {
+            // If not, create it
+            await fs.mkdir("res/", {}, err => {
+                if (err)reject(err);
+            });
+        }
+
+        var resContents = "";
+        await fs.readdir(path.join(__dirname, "../res")).then(res => resContents = res).catch(reject);
 
         // If resContents has the length of 0 or lower, return [] else return resContents;
         return resolve(resContents.length <= 0 ? resolve([]) : resolve(resContents));
