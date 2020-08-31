@@ -101,3 +101,25 @@ p {
     display: none;
     opacity:0;
 }
+
+.menu_create {
+    color: white
+}
+
+.menu_create .create_form {
+    margin: 2rem auto;
+}
+
+.menu_create .create_form input {
+    height: 3rem;
+    width: 20rem;
+
+    border:none;
+    outline:none;
+
+    font-size: 1.2rem;
+
+    border-radius: 0.5rem;
+
+    font-family: 'Rubik', sans-serif;
+}

@@ -1,3 +1,5 @@
+"use strict";
+
 var hasLoaded = false;
 
 var profiles;
@@ -10,13 +12,6 @@ var profiles;
     await dots_loading.load("add");
 
     $(".loading_container").css("opacity", 0);
-
-    await anime({
-        targets: ".loading_container",
-        opacity: 1,
-        easing: "easeInOutSine",
-        duration: 800,
-    }).finished;
 
     playLoadingAnimation();
 
@@ -35,7 +30,7 @@ var profiles;
     splash_screen.hide();
 
     // Load main menu
-    Menu.load("menu_main");
+    Menu.load("menu_main").catch(console.error);
 
     // Set event listeners
     $(".planner_navigate_container").click(function (e) { 
@@ -49,11 +44,13 @@ function loadProfiles() {
         // First, check is the src/res folder exists
         if (!require("fs").existsSync(path.join(__dirname, "../res/"))) {
             // If not, create it
-            await fs.mkdir("res/", {}, err => {
-                if (err)reject(err);
+            await fs.mkdir("res/").catch(err => {
+                // Catch errors
+                return reject(err);
             });
         }
 
+        // Read it lol
         var resContents = "";
         await fs.readdir(path.join(__dirname, "../res")).then(res => resContents = res).catch(reject);
 
@@ -66,7 +63,8 @@ function loadMenus() {
     return new Promise(async (resolve, reject) => {
         // Load main menu
         Menu.new("menu_main");
-        await planner_create_element.getHTML().then(res => {
+
+        await planner_create_element.load("return").then(res => {
             Menu.addTo("menu_main", res);
         }).catch(reject);
         if (profiles.length <= 0) {
@@ -76,12 +74,21 @@ function loadMenus() {
         }
 
         Menu.new("menu_create");
+        await planner_create_page.load("return").then(res => {
+            Menu.addTo("menu_create", res);
+        });
 
         resolve("Success");
     });
 }
 
 async function playLoadingAnimation() {
+    await anime({
+        targets: ".loading_container",
+        opacity: 1,
+        easing: "easeInOutSine",
+        duration: 800,
+    }).finished;
     while (!hasLoaded) {
         await dots_loading.play_loading_animation();
     }

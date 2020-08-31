@@ -211,8 +211,11 @@ function importHTMLPage(page) {
             return reject("PAGE DOESN'T EXIST")
         }
 
+        // If path deosn't have an "/index.html" at the end, add it
+        if (!page.endsWith("/index.html"))page += "/index.html"
+
         // Get the file path
-        var filePath = path.join(__dirname, `pages/${page}/index.html`);
+        var filePath = path.join(__dirname, `pages/${page}`);
 
         // Read the file
         await fs.readFile(filePath, "utf-8").then(res => {
@@ -335,6 +338,33 @@ const planner_select_element = {
     load: function (method) {
         return new Promise(async (resolve, reject) => {
             await importHTMLPage("menus/planner/elements/planner_select_element").then(res => {
+                // After getting the page
+
+                // If method is "return", return the res
+                if (method === "return")return resolve(res);
+
+                // If method is anything else but not a string, has no length, or is an undefined method, replace the page
+                if (typeof method != "string" || !method.length || Page[method] === undefined)Page.replace(res);
+                else Page[method](res); // Execute Page function by method
+
+                // Return the promise;
+                return resolve("Success");
+            }).catch(reject);
+        });
+    }
+}
+
+/**
+ * Planner create page object
+ */
+const planner_create_page = {
+    /**
+     * Loads planner create page
+     * @param {string} method (Optional) Page method such as replace, return, and add. (Defaults to replace)
+     */
+    load: function (method) {
+        return new Promise(async (resolve, reject) => {
+            await importHTMLPage("menus/planner/main/planner_create_page").then(res => {
                 // After getting the page
 
                 // If method is "return", return the res
