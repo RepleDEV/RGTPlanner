@@ -18,17 +18,15 @@ var profiles;
         duration: 800,
     }).finished;
 
+    playLoadingAnimation();
+
     await loadProfiles().then(res => {
         profiles = res;
     }).catch(console.error);
 
-    loadMenus().then(res => {
+    await loadMenus().then(res => {
         hasLoaded = true;
     }).catch(console.error);
-
-    while (!hasLoaded) {
-        await dots_loading.play_loading_animation();
-    }
 
     dots_loading.play_hide_animation();
     await splash_screen.play_hide_animation();
@@ -36,12 +34,14 @@ var profiles;
     dots_loading.hide();
     splash_screen.hide();
 
+    // Load main menu
     Menu.load("menu_main");
 
-    // $(".planner_navigate_container").click(function (e) { 
-    //     e.preventDefault();
-    //     Menu.load()
-    // });
+    // Set event listeners
+    $(".planner_navigate_container").click(function (e) { 
+        e.preventDefault();
+        Menu.load("menu_create");
+    });
 })()
 
 function loadProfiles() {
@@ -79,4 +79,11 @@ function loadMenus() {
 
         resolve("Success");
     });
+}
+
+async function playLoadingAnimation() {
+    while (!hasLoaded) {
+        await dots_loading.play_loading_animation();
+    }
+    return;
 }

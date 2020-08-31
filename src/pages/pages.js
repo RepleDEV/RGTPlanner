@@ -26,14 +26,32 @@ const Menu = {
     load: function(menu) {
         return new Promise(async (resolve, reject) => {
             if (typeof menu != "string")return reject("ARGUMENT PASSED NOT OF STRING TYPE");
-            $(`.${menu}`).css("display", "block");
+
+            var currentMenu = this.current();
+
+            if (currentMenu === menu)return reject(`CURRENT MENU IS ALREADY AT ${menu}`);
+
+            menu = "." + menu;
+
+            if (currentMenu.length > 0) {
+                currentMenu = "." + currentMenu;
+                await anime({
+                    targets: currentMenu,
+                    opacity: 0,
+                    easing: "easeInOutSine",
+                    duration: 800
+                }).finished;
+                $(currentMenu).css("display", "none");
+            }
+
+            $(menu).css("display", "block");
             await anime({
-                targets: `.${menu}`,
+                targets: menu,
                 opacity:1,
                 easing: "easeInOutSine",
-                duration: 200
+                duration: 800
             }).finished;
-            resolve("Success");
+            return resolve("Success");
         });
     },
     new: function(menu_name) {
@@ -43,6 +61,13 @@ const Menu = {
     addTo: function(menu_name, content) {
         if ($(`.${menu_name}`).length <= 0)return Error("MENU DOESN'T EXIST");
         $(`.${menu_name}`).html($(`.${menu_name}`).html() + content);
+    },
+    current: function() {
+        var currentMenu = "";
+        $(".menu").each((i, obj) => {
+            if ($(obj).css("display") != "none"){currentMenu = $(obj).attr("class").replace("menu", "").trim();return;}
+        });
+        return currentMenu;
     }
 }
 
